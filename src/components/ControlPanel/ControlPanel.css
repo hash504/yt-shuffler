@@ -1,0 +1,187 @@
+.control-panel {
+    width: 750px;
+    height: 815px;
+    background: rgb(90, 90, 90);
+    border: 5px solid rgb(40, 40, 40);
+    display: grid;
+    grid-template-columns: 750px;
+    grid-template-rows: 425px 170px 200px;
+}
+
+.video-player-container {
+    grid-area: 1 / 1 / 2 / 2;
+    display: grid;
+}
+
+.video-controls-container {
+    grid-area: 2 / 1 / 3 / 2;
+    display: grid;
+    grid-template-columns: 25px repeat(5, 140px) 25px;
+    grid-template-rows: 70px 110px;
+    padding-bottom: 5px;
+}
+.set-video-container {
+    grid-area: 1 / 2 / 2 / 5;
+    width: 115%;
+    margin-top: 10px;
+}
+.set-volume-container {
+    grid-area: 1 / 5 / 2 / 7;
+    width: 80%;
+    margin-left: auto; 
+    margin-right: 0;
+    margin-bottom: 10px;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: 1fr 1fr;
+}
+.start-button-container { grid-area: 2 / 2 / 3 / 3; }
+.reset-button-container { grid-area: 2 / 3 / 3 / 4; }
+.pause-button-container { grid-area: 2 / 4 / 3 / 5; }
+.next-button-container { grid-area: 2 / 5 / 3 / 6; }
+.prev-button-container { grid-area: 2 / 6 / 3 / 7; }
+
+.video-controls-container button:not(.set-video-button) {
+    width: 90%;
+    margin: auto;
+    display: block;
+    height: 100%;
+    background: rgb(80, 80, 80);
+    border: 4px solid rgb(40, 40, 40);
+    color: rgb(40, 40, 40);
+    font-weight: bold;
+    font-family: 'Oswald', sans-serif;
+    font-size: 48px;
+    text-align: center;
+    border-radius: 30% / 20%;
+}
+.video-controls-container button div {
+    position: relative;
+    bottom: 3px;
+}
+.video-controls-container img {
+    width: 80%;
+    min-width: 80%;
+    height: 80%;
+    min-height: 80%;
+    padding-top: 10px;
+    padding-left: 10px;
+    position: relative;
+}
+
+.video-controls-container button:hover {
+    background: rgb(110, 110, 110);
+    cursor: pointer;
+}
+
+.set-video-container input {
+    height: 40px;
+    font-size: 24px;
+    color: white;
+    border: 3px solid rgb(40, 40, 40);
+    font-family: 'Oswald', sans-serif;
+    padding-left: 10px;
+    background: rgb(70, 70, 70);
+    width: 65%;
+}
+
+.set-video-bar {
+    font-size: 24px;
+    color: white;
+    border: 3px solid rgb(40, 40, 40);
+    font-family: 'Oswald', sans-serif;
+    background: rgb(70, 70, 70);
+}
+
+.set-video-bar::placeholder {
+    font-size: 24px;
+}
+
+.set-video-button {
+    height: 48px;
+    color: white;
+    width: 25%;
+    display: inline;
+    border: 3px solid rgb(40, 40, 40);
+    font-family: 'Oswald', sans-serif;
+    background: rgb(70, 70, 70);
+    font-size: 24px;
+    margin-left: 20px;
+}
+
+.volume-icon-container {
+    grid-area: 1 / 1 / 3 / 2;
+}
+.volume-icon-container img {
+    width: 75%;
+    min-width: 75%;
+    height: 75%;
+    min-height: 75%;
+    padding-top: 12px;
+}
+.volume-slider-container {
+    grid-area: 1 / 2 / 2 / 3;
+    padding-top: 8px;
+}
+.volume-amount-container {
+    grid-area: 2 / 2 / 3 / 3;
+    text-align: center;
+    color: white;
+    padding-left: 1px;
+    font-size: 18px;
+}
+
+.volume-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 98%;
+}
+
+.volume-slider::-webkit-slider-thumb {
+    cursor: pointer;
+}
+
+.priority-setter-container {
+    grid-area: 3 / 1 / 4 / 2;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 50px 75px 75px;
+}
+.priority-setter-title-container {
+    grid-area: 1 / 1 / 2 / 3;
+    padding-top: 10px;
+    font-size: 36px;
+    text-align: center;
+    color: white;
+}
+.id-bar-container { grid-area: 2 / 1 / 3 / 2; }
+.priority-value-bar-container { grid-area: 3 / 1 / 4 / 2; }
+.set-priortiy-button-container { grid-area: 2 / 2 / 3 / 3; }
+.reset-priority-button-container { grid-area: 3 / 2 / 4 / 3; }
+
+.id-bar, .value-bar, .set-priority-button, .reset-priority-button {
+    color: white;
+    border: 3px solid rgb(40, 40, 40);
+    font-size: 25px;
+    font-family: 'Oswald', sans-serif;
+    display: block;
+    margin: auto;
+    margin-top: 25px;
+}
+
+.id-bar, .value-bar {
+    width: 85%;
+    padding-left: 10px;
+    background: rgb(70, 70, 70);
+}
+
+.set-priority-button, .reset-priority-button {
+    width: 80%;
+    background: rgb(80, 80, 80);
+}
+
+.set-priority-button:hover, .reset-priority-button:hover {
+    background: rgb(110, 110, 110);
+    font-style: italic;
+    cursor: pointer;
+}

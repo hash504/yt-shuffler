@@ -1,0 +1,100 @@
+.search-bar {
+    padding-top: 197px;
+    width: 808px;
+    margin: auto;
+    height: 25px;
+    display: grid;
+    grid-template-columns: 763px 45px;
+    grid-template-rows: 45px;
+}
+
+.search-bar img {
+    width: 36px;
+    height: 36px;
+    min-height: 36px;
+    max-height: 36px;
+    padding-top: 2.5px;
+    padding-left: 0.5px;
+}
+
+.search-bar input {
+    margin: auto;
+    width: 763px;
+    height: 45px;
+    color: white;
+    background: rgb(70, 70, 70);
+    border: 3px solid rgb(40, 40, 40);
+    font-size: 25px;
+    font-family: 'Oswald', sans-serif;
+    position: absolute;
+    margin-top: -18px;
+    padding-left: 10px;
+    grid-area: 1 / 1 / 2 / 2;
+}
+
+.search-bar button {
+    grid-area: 1 / 2 / 2 / 3;
+    margin-top: -18px;
+    margin-left: 18px;
+    height: 53px;
+    width: 53px;
+    background: rgb(80, 80, 80);
+    border: 3px solid rgb(40, 40, 40);
+    border-left: 0px;
+}
+
+.search-bar button:hover {
+    background-color: rgb(110, 110, 110);
+    cursor: pointer;
+}
+
+::placeholder {
+    color: rgb(40, 40, 40);
+    font-family: 'Oswald', sans-serif;
+    font-size: 25px;
+}
+
+/* Styling for the containers for the Playlist and Control Panel components below */
+
+.content-containers {
+    position: absolute;
+    width: 100%;
+    min-width: 1700px;
+    min-height: 850px;
+    margin-top: 35px;
+    padding-bottom: 25px;
+    display: grid;
+    grid-template-columns: 100px 40% 7% 40% 100px;
+    grid-template-rows: 1fr;
+}
+
+.playlist-container {
+    grid-area: 1 / 2 / 2 / 3;
+    min-width: 750px;
+    min-height: 850px;
+}
+
+.controlpanel-container {
+    grid-area: 1 / 4 / 2 / 5;
+    min-width: 750px;
+    min-height: 850px;
+}
+
+@media screen and (max-width: 1650px) {
+    .content-containers {
+        width: 100%;
+        min-width: 750px;
+        grid-template-columns: 1fr;
+        grid-template-rows: 46% 8% 46%;
+    }
+
+    .playlist-container {
+        grid-area: 1 / 1 / 2 / 2;
+        margin: auto;
+    }
+
+    .controlpanel-container {
+        grid-area: 3 / 1 / 4 / 2;
+        margin: auto;
+    }
+}
