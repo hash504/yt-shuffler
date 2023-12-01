@@ -25,7 +25,7 @@ const SearchBar = (props) => {
     function loadPlaylist() { // Checks the url three times, once for if it's not undefined, once for if it includes the beginning of the youtube url, and once if it only includes letters, numbers and hyphens.
         if (playlistUrl && targetUrl) {
             if (playlistUrl.includes('https://www.youtube.com/playlist?list=')) {
-                if ((/([^A-Za-z0-9-])/g).test(targetUrl)) {
+                if ((/([^A-Za-z0-9-_])/g).test(targetUrl)) {
                     alert("Invalid URL. Copy-Paste URL directly from search bar.");
                 }
                 else {
