@@ -6,7 +6,7 @@ const GetPlaylistData = (playlistUrl) => { // A separate API handler that just r
 
         function getUrl(pagetoken) {
             let pt = (typeof pagetoken === "undefined") ? "" :`&pageToken=${pagetoken}`,
-            api_key = 'AIzaSyAIxCzlEd9kIkWuU6s-dapXnnPMnmH71eE',
+            api_key = 'API_KEY',
             playlistID = playlistUrl,
             url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=${playlistID}&key=${api_key}${pt}`;
             return url;
