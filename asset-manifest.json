@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/yt-shuffler/static/css/main.a17307fb.css",
-    "main.js": "/yt-shuffler/static/js/main.8340ef66.js",
+    "main.js": "/yt-shuffler/static/js/main.864a9082.js",
     "static/media/website-info-graphic.png": "/yt-shuffler/static/media/website-info-graphic.b6fe71c138c29e667585.png",
     "index.html": "/yt-shuffler/index.html",
     "main.a17307fb.css.map": "/yt-shuffler/static/css/main.a17307fb.css.map",
-    "main.8340ef66.js.map": "/yt-shuffler/static/js/main.8340ef66.js.map"
+    "main.864a9082.js.map": "/yt-shuffler/static/js/main.864a9082.js.map"
   },
   "entrypoints": [
     "static/css/main.a17307fb.css",
-    "static/js/main.8340ef66.js"
+    "static/js/main.864a9082.js"
   ]
 }
