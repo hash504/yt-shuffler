@@ -1,7 +1,8 @@
 # YouTube Shuffler
 
-This website was created because i got tired of dealing with YouTube's sucky playlist shuffle system.
-Link: https://hash504.github.io/yt-shuffler
+This website was created because i got tired of dealing with YouTube's sucky playlist shuffle system.<br>
+Link: https://hash504.github.io/yt-shuffler<br>
+Note: Website was not built for mobile devices, expect more bugs on mobile devices.
 
 ## Features
 
