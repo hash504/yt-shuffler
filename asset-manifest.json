@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/yt-shuffler/static/css/main.a6e4eedd.css",
+    "main.js": "/yt-shuffler/static/js/main.59de844f.js",
+    "static/media/website-info-graphic.png": "/yt-shuffler/static/media/website-info-graphic.b6fe71c138c29e667585.png",
+    "index.html": "/yt-shuffler/index.html",
+    "main.a6e4eedd.css.map": "/yt-shuffler/static/css/main.a6e4eedd.css.map",
+    "main.59de844f.js.map": "/yt-shuffler/static/js/main.59de844f.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a6e4eedd.css",
+    "static/js/main.59de844f.js"
+  ]
+}
