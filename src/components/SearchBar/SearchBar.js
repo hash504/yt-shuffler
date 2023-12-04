@@ -46,7 +46,7 @@ const SearchBar = (props) => {
     return (
         <>
         <div className='search-bar'>
-            <input className='text' placeholder='Insert Playlist URL...' onChange={handleChange}/>
+            <input name='search-bar' className='text' placeholder='Insert Playlist URL...' onChange={handleChange}/>
             <button onClick={loadPlaylist}><img src={addIcon} alt='Add Playlist' title='Add Playlist'/></button>
         </div>
         <div className='content-containers'>

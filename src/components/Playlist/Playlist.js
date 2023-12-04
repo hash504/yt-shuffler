@@ -65,7 +65,7 @@ const Playlist = forwardRef((props, ref) => {
     return (
         <>
             <div className='playlist-search'>
-                <input placeholder='Search playlist...' onChange={searchPlaylist}/>
+                <input name='search-playlist' placeholder='Search playlist...' onChange={searchPlaylist}/>
             </div>
             <div className='playlist'>
                 {playlistDisplay}

@@ -12,7 +12,7 @@ const VideoPlayer = (props) => {
                 height='405px'
                 volume={props.volume}
                 pip={true}
-                controls={false}
+                controls={true}
                 playing={props.isPlaying}
                 onEnded={props.handleNextVideo}
                 onPlay={props.handlePlay}

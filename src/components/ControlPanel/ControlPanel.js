@@ -1,11 +1,16 @@
 import React, { useState, forwardRef, useImperativeHandle, useEffect } from 'react';
 import './ControlPanel.css';
 import VideoPlayer from '../VideoPlayer/VideoPlayer';
+
 import playButton from './imgs/play-button.png';
 import pauseButton from './imgs/pause-button.png';
 import nextButton from './imgs/next-button.png';
 import prevButton from './imgs/prev-button.png';
-import volumeIcon from './imgs/volume-icon.png';
+
+import volumeHigh from './imgs/volume-icons/volume-high.png';
+import volumeMid from './imgs/volume-icons/volume-mid.png';
+import volumeLow from './imgs/volume-icons/volume-low.png';
+import volumeOff from './imgs/volume-icons/volume-off.png';
 
 
 const ControlPanel = forwardRef((props, ref) => {
@@ -36,22 +41,35 @@ const ControlPanel = forwardRef((props, ref) => {
         }
     }
 
-    
-
     function handleVolumeChange(event) {
-        setVolume(event.target.value);
+        setVolume(Number(event.target.value));
+    }
+
+    function handleVolumeIconChange() {
+        if (volume > 0.75) {
+            return volumeHigh;
+        }
+        else if (volume >= 0.25 && volume <= 0.75) {
+            return volumeMid;
+        }
+        else if (volume > 0 && volume < 0.25) {
+            return volumeLow;
+        }
+        else {
+            return volumeOff;
+        }
     }
 
     /***** BUTTON FUNCTIONS BELOW *****/
 
-    const [isPlaylistReady, setPlaylistReady] = useState(false); // isPlaylistReady enables use of the Start and Reset playlist buttons, as well as the Priority Setter
-    const [isPlaylistActive, setPlaylistActive] = useState(false); // isPlaylistActive enables use of the Play/Pause, Next and Previous Video buttons
-    const [isVideoPlaying, setVideoPlaying] = useState(false); // isVideoPlaying disables use of the Priority Setter
+    const [isPlaylistReady, setPlaylistReady] = useState(false); // Enables use of the Start and Reset playlist buttons, as well as the Priority Setter
+    const [isPlaylistActive, setPlaylistActive] = useState(false); // Enables use of the Play/Pause, Next and Previous Video buttons
+    const [isVideoPlaying, setVideoPlaying] = useState(false); // Enables the visual effects of the play/pause buttons
     const [shuffleList, setShuffleList] = useState(); // The initial list to be shuffled through
-    const [shuffleCache, setShuffleCache] = useState([]); // Values from shuffleList are added to shuffleCache after the video plays. (Allows the Previous Video button to function)
-    const [shuffleCacheIndex, setShuffleCacheIndex] = useState(); // Allows for picking videos from shuffleCache.
     const [currentVideo, setCurrentVideo] = useState(); // The current video url
     const [currentVideoIndex, setCurrentVideoIndex] = useState(); // The index of the current video url
+    const [prevVideo, setPrevVideo] = useState(); // The index of the previous video url
+    const [isPrevVideoActive, setPrevVideoActive] = useState(false); // If true, hitting the next video button wont pick from the shuffle list. Also prevents going father back then 1 video.
 
     useEffect(() => { // The function for setting isPlaylistReady
         if (props.playlistData) {
@@ -69,6 +87,23 @@ const ControlPanel = forwardRef((props, ref) => {
         }
     }, [isPlaylistActive, isPlaylistReady])
 
+
+    useEffect(() => { // Only triggers when the current video changes, it's for removing the current video from the shuffle list
+        if (shuffleList) {
+            setShuffleList((index) => index.filter(i => i !== shuffleList[currentVideoIndex]));
+        }
+    }, [currentVideoIndex]);
+
+    useEffect(() => { // Addresses a bug where pressing the previous video button on the last playlist item then going back to the last video causes the playlist to not end properly.
+        if (shuffleList) {
+            if (shuffleList.length === 1 && (currentVideo === prevVideo)) {
+                alert('Playlist ended.');
+                console.log('Playlist ended prematurely.')
+                handleResetPlaylist();
+            }
+        }
+    });
+    
     function createShuffle(data) {
         let list = [];
         for (let i = 1; i <= data.length; i++) {
@@ -77,31 +112,14 @@ const ControlPanel = forwardRef((props, ref) => {
         return list;
     }
 
-    useEffect(() => { // Only triggers when the current video changes, it's for removing the current video from the shuffle list and adding it to the shuffle cache
-        if (shuffleList) {
-            setShuffleCache([...shuffleCache, shuffleList[currentVideoIndex]]);
-            setShuffleList((index) => index.filter(i => i !== shuffleList[currentVideoIndex]));
-        }
-    }, [currentVideo]);
-
-    /*
-    useEffect(() => { // Triggers when the Previous Video button is hit, sets the video to the specific item in the shuffleCache
-        if (isPlaylistReady && isPlaylistActive) {
-            if (shuffleCacheIndex > 0 && shuffleCacheIndex < shuffleCache.length + 1) {
-                setCurrentVideo(props.playlistData[shuffleCache[shuffleCache.length - shuffleCacheIndex]].url.slice(0, 43));
-            }
-            else {
-                alert("Can't go back.");
-            }
-        }
-    }, [shuffleCacheIndex]);
-    */
-
-    function handleSetVideo() { // The function for setting the current video
+    function handleSetVideo() { // The function for setting the current and previous video as well as ending the playlist
         if (shuffleList.length > 0) {
             let videoIndex = Math.floor((Math.random() * shuffleList.length));
             setCurrentVideo(props.playlistData[shuffleList[videoIndex] - 1].url.slice(0, 43));
             setCurrentVideoIndex(videoIndex);
+            if (currentVideo) {
+                setPrevVideo(currentVideo);
+            }
             console.log('Video has been set.');
         }
         else {
@@ -121,9 +139,10 @@ const ControlPanel = forwardRef((props, ref) => {
     function handleResetPlaylist() {
         if (isPlaylistActive === true) {
             setShuffleList([]);
-            setShuffleCache([]);
             setCurrentVideo();
             setCurrentVideoIndex();
+            setPrevVideo();
+            setPrevVideoActive(false);
             setVideoPlaying(false);
             setPlaylistActive(false);
             console.log('Playlist reset.');
@@ -151,26 +170,30 @@ const ControlPanel = forwardRef((props, ref) => {
 
     function handleNextVideo() {
         if (isPlaylistActive === true && isPlaylistReady === true) {
-            console.log('Went to next video.');
-            handleSetVideo();
-            if (shuffleCacheIndex > 0) {
-                setShuffleCacheIndex(shuffleCacheIndex - 1);
+            if (isPrevVideoActive === false) {
+                handleSetVideo();
             }
+            else {
+                setCurrentVideo(prevVideo);
+                setPrevVideo(currentVideo);
+                setPrevVideoActive(false);
+            }
+            console.log('Went to next video.');
         }
     }
 
     function handlePrevVideo() {
         if (isPlaylistActive === true && isPlaylistReady === true) {
-            alert('Feature unimplemented.');
-            /*
-            if (shuffleList.length === props.playlistData.length) {
-                alert("Can't go back.");
+            //alert('Feature unimplemented.');
+            if (prevVideo && isPrevVideoActive === false) {
+                setPrevVideo(currentVideo);
+                setCurrentVideo(prevVideo);
+                setPrevVideoActive(true);
             }
             else {
-                setShuffleCacheIndex(shuffleCacheIndex + 1);
-                console.log(shuffleCacheIndex);
+                alert("Can't go further back.");
             }
-            */
+            
         }
     }
 
@@ -188,26 +211,28 @@ const ControlPanel = forwardRef((props, ref) => {
     }
 
     function handlePrioritySet() {
-        if (isPlaylistReady && isPlaylistActive) { // Check 1: Playlist is ready and active
-            if(priorityID <= props.playlistData.length && priorityID > 0) { // Check 2: If the priorityID is within the bounds of the playlist (NOT the shuffleList)
-                if (priorityValue >= 0) { // Check 3: If  priorityValue is a positive number
-                    setShuffleList((index) => index.filter(i => i !== priorityID));
-                    for (let i = 0; i < priorityValue; i++) {
-                        setShuffleList(oldList => [...oldList, priorityID]);
+        if (isPlaylistReady) { // Check 1: Playlist is ready and active
+            if (isPlaylistActive) {
+                if(priorityID <= props.playlistData.length && priorityID > 0) { // Check 2: If the priorityID is within the bounds of the playlist (NOT the shuffleList)
+                    if (priorityValue >= 0) { // Check 3: If  priorityValue is a positive number
+                        setShuffleList((index) => index.filter(i => i !== priorityID));
+                        for (let i = 0; i < priorityValue; i++) {
+                            setShuffleList(oldList => [...oldList, priorityID]);
+                        }
+                        alert(`Priority for "${props.playlistData[priorityID - 1].title}" has been set to ${priorityValue}`)
+                        console.log('Priority Set.');
                     }
-                    alert(`Priority for "${props.playlistData[priorityID - 1].title}" has been set to ${priorityValue}`)
-                    console.log('Priority Set.');
+                    else {
+                        alert('Please input a positive priority value.');
+                    }
                 }
                 else {
-                    alert('Please input a positive priority value.');
+                    alert('Playlist Item ID not found.');
                 }
             }
             else {
-                alert('Playlist Item ID not found.');
+                alert("Playlist must be started in order to change priority.");
             }
-        }
-        else {
-            alert("Playlist must be started in order to change priority.");
         }
     }
 
@@ -232,12 +257,12 @@ const ControlPanel = forwardRef((props, ref) => {
             </div>
             <div className='video-controls-container'>
                 <div className='set-video-container'>
-                    <input className='set-video-bar' placeholder='Insert Playlist Item ID...' onChange={handleVideoSetChange}/>
+                    <input className='set-video-bar' name='set-video-bar' placeholder='Insert Playlist Item ID...' onChange={handleVideoSetChange}/>
                     <button className='set-video-button' onClick={changeVideo}>Set Video</button>
                 </div>
                 <div className='set-volume-container'>
-                    <div className='volume-icon-container'><img src={volumeIcon} className='volume-icon' alt='Volume Icon'/></div>
-                    <div className='volume-slider-container'><input type='range' min={0} max={1} step={0.01} value={volume} className='volume-slider' onChange={handleVolumeChange}/></div>
+                    <div className='volume-icon-container'><img src={handleVolumeIconChange()} className='volume-icon' alt='Volume Icon'/></div>
+                    <div className='volume-slider-container'><input name='volume-slider' type='range' min={0} max={1} step={0.01} value={volume} className='volume-slider' onChange={handleVolumeChange}/></div>
                     <div className='volume-amount-container'>Volume: {Math.round(volume * 100)}%</div>
                 </div>
                 <div className='start-button-container'>
@@ -260,10 +285,10 @@ const ControlPanel = forwardRef((props, ref) => {
             <div className='priority-setter-container'> 
                 <div className='priority-setter-title-container'>Priority Setter</div>
                 <div className='id-bar-container'>
-                    <input className='id-bar' placeholder='Insert Playlist Item ID...' onChange={handlePriorityIdChange}></input>
+                    <input className='id-bar' name='id-bar' placeholder='Insert Playlist Item ID...' onChange={handlePriorityIdChange}></input>
                 </div>
                 <div className='priority-value-bar-container'>
-                    <input className='value-bar' placeholder='Insert Priority value...' onChange={handlePriorityValueChange}/>
+                    <input className='value-bar' name ='value-bar' placeholder='Insert Priority value...' onChange={handlePriorityValueChange}/>
                 </div>
                 <div className='set-priortiy-button-container'> 
                     <button className='set-priority-button' onClick={handlePrioritySet}>Set Priority</button>

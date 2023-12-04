@@ -1,6 +1,6 @@
 {
   "name": "yt-shuffler",
-  "version": "0.1.0",
+  "version": "1.2.0",
   "homepage": "https://hash504.github.io/yt-shuffler",
   "private": true,
   "dependencies": {

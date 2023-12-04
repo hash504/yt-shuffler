@@ -15,12 +15,12 @@ h1 {
 .about-section {
     position: absolute;
     margin-top: 900px;
-    width: 100.4%;
+    width: 100%;
     margin-left: -8px;
 }
 
 .about-section-button-container {
-    width: 99%;
+    width: 99.4%;
 }
 
 .about-section-button {
@@ -46,6 +46,7 @@ h1 {
     padding-left: 20px;
     padding-right: 20px;
     min-height: 1200px;
+    min-width: 1820px;
 }
 
 .about-section-info div {
@@ -62,7 +63,9 @@ h1 {
 .info-sections {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: 180px 240px 360px 340px;
+    grid-template-rows: 180px 210px 390px 340px;
+    overflow: hidden;
+    white-space: wrap;
 }
 .sec1 { grid-area: 1 / 1 / 2 / 2; }
 .sec2 { grid-area: 1 / 2 / 2 / 3; }

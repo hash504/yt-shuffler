@@ -14,8 +14,8 @@ Note: Website was not built for mobile devices, expect more bugs on mobile devic
 
 ## Features To-Do-List
 
-* The Previous Video button
-* The ability to set the video from the playlist list (not very likely to be added due to difficulty)
+* Replace default alerts with modals
+* The ability to search playlists by title or channel
 
 ## Additional Info
 

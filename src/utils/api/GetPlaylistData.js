@@ -55,7 +55,6 @@ const GetPlaylistData = (playlistUrl) => { // A separate API handler that just r
                 }
             }
         }
-        console.log(listResults);
         return listResults;    
     }
     };

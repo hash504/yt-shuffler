@@ -37,15 +37,15 @@ const AboutSection = () => {
                             <h1>3. Playlist Item List</h1>
                             <h2>
                                 This is where each playlist item is shown.<br/>
-                                The full title, channel name, a Playlist Item ID, and a link to the video on YouTube are shown.<br/>
-                                If the full title of a video isn't visible, you can hover over with your mouse and it will be shown.
+                                It includes the title, channel name, a Playlist Item ID, and a link to the video on YouTube.<br/>
+                                If the title of a video isn't visible, you can hover over it and it will be shown.
                             </h2>
                         </div>
                         <div className='sec4'>
                             <h1>4. Video Player</h1>
                             <h2>
                                 This is where the video will play after the playlist starts.<br/>
-                                You cannot control the video from the video player (aside from pausing/playing it), so you must use the video controls.
+                                You cannot start/reset the playlist or go to the next/previous video with the player, you must use the video controls.
                             </h2>
                         </div>
                         <div className='sec5'>
@@ -62,10 +62,10 @@ const AboutSection = () => {
                             <h2>
                                 This is where you control the playlist and the video.<br/>
                                 From left to right, the buttons are for starting the playlist, resetting the playlist, pausing/playing the video, going to the next video, and going to the previous video.<br/>
-                                Starting the playlist will create a list at which will be shuffled through at complete random, and resetting the playlist will stop the video and delete the shuffle list created.<br/>
+                                Starting the playlist will create a list at which will be shuffled through at complete random, and resetting the playlist will stop the video and delete the shuffle list.<br/>
                                 Pressing the pause/play button will pause/play the video, though you can pause/play the video from the video player.
-                                Pressing the next video button will change the video to the next video in the shuffle list.<br/>
-                                The previous video button is currently non-functional.
+                                Pressing the next video button will change the video to the next video in the shuffle list, and pressing the previous video button while change it to the previous video.<br/>
+                                You can only go backwards by one video when pressing the Previous Video button.
                             </h2>
                         </div>
                         <div className='sec7'>
@@ -74,8 +74,8 @@ const AboutSection = () => {
                                 Unique to this website is the Priority Setter, which allows you to adjust the likelihood of randomly encountering a certain video in a playlist.<br/>
                                 Insert a Playlist Item ID into the Insert Playlist ID bar, insert a positive number into the Insert Priority Value bar, then click the Set Priority button to adjust the priority of a single video.<br/>
                                 Clicking the Reset Priority button will reset the priorty for every video and create a new shuffle list.<br/>
-                                The likelihood of a playlist item appearing is based on the Priority Value and the size of the playlist.<br/>
-                                Higher Priority Values will increase the likelihood of a playlist item appearing, but the larger a playlist is, the less likely a certain video will be selected randomly.<br/><br/>
+                                The likelihood of a playlist item appearing is based on the priority value and the size of the playlist.<br/>
+                                Higher priority values will increase the likelihood of a playlist item appearing, but the larger a playlist is, the less likely a certain video will be selected randomly.<br/><br/>
                                 The Priority Setter can also re-add playlist items back into the shuffle list, or remove them if the priority value is set to 0.
                             </h2>
                         </div>
