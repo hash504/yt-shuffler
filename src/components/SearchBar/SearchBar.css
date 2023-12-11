@@ -14,7 +14,7 @@
     min-height: 36px;
     max-height: 36px;
     padding-top: 2.5px;
-    padding-left: 3.5px;
+    padding-left: 0.5px;
 }
 
 .search-bar input {
@@ -23,7 +23,7 @@
     height: 45px;
     color: white;
     background: rgb(70, 70, 70);
-    border: 5px solid rgb(40, 40, 40);
+    border: 3px solid rgb(40, 40, 40);
     font-size: 25px;
     font-family: 'Oswald', sans-serif;
     position: absolute;
@@ -37,10 +37,10 @@
     grid-area: 1 / 2 / 2 / 3;
     margin-top: -18px;
     margin-left: 8px;
-    height: 57px;
-    width: 57px;
+    height: 53px;
+    width: 53px;
     background: rgb(85, 85, 85);
-    border: 5px solid rgb(40, 40, 40);
+    border: 3px solid rgb(40, 40, 40);
     border-left: 0px;
 }
 
