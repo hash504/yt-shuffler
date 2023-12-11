@@ -6,16 +6,18 @@ const AboutSection = () => {
 
     const [aboutSection, setAboutSection] = useState();
     const [isAboutSectionVisible, toggleAboutSectionVisibility] = useState(false);
+    const [aboutSectionButtonStyle, setAboutSectionButtonStyle] = useState('about-section-button');
 
     function handleToggleAboutSection() {
         if (isAboutSectionVisible === false) {
             toggleAboutSectionVisibility(true);
+            setAboutSectionButtonStyle('about-section-button about-section-visible');
             setAboutSection(
                 <div className='about-section-info'>
                     <h1>About This Website</h1>
                     <h2>
                         This website was created because i got tired of dealing with YouTube's scuffed shuffle system.<br/>
-                        It was made mainly for shuffling through music-related playlists, so it's not ideal for viewing YouTube videos.
+                        It was made mainly for shuffling through music playlists, so it's not ideal for viewing YouTube videos.
                     </h2>
                     <h1>How To Use</h1>
                     <img className='info-graphic' alt='Website information graphic' src={graphic}/>
@@ -30,7 +32,8 @@ const AboutSection = () => {
                         <div className='sec2'>
                             <h1>2. Playlist Search</h1>
                             <h2>
-                                This is where you can search for specific playlist items in order to find their Playlist Item ID.
+                                This is where you can search for specific playlist items in order to find their Playlist Item ID.<br/>
+                                You can also choose to search by either the title of the video or by the name of the channel the video is from by clicking the button on the right.
                             </h2>
                         </div>
                         <div className='sec3'>
@@ -54,7 +57,8 @@ const AboutSection = () => {
                                 Here is where you can set the video manuually as well as the volume.<br/>
                                 Insert a Playlist Item ID into the Insert Playlist ID bar, and pressing the Set Video button will change the video.<br/>
                                 You can use the Set Video bar to set the video independent of the shuffle.<br/><br/>
-                                The Volume Slider is how you control the volume of the video. Slide it to the left to decrease the volume, or to the right to increase it.
+                                The Volume Slider is how you control the volume of the video. Slide it to the left to decrease the volume, or to the right to increase it.<br/>
+                                While you can change the volume in the video player, it will <i>not</i> update the Set Volume bar.
                             </h2>
                         </div>
                         <div className='sec6'>
@@ -63,8 +67,8 @@ const AboutSection = () => {
                                 This is where you control the playlist and the video.<br/>
                                 From left to right, the buttons are for starting the playlist, resetting the playlist, pausing/playing the video, going to the next video, and going to the previous video.<br/>
                                 Starting the playlist will create a list at which will be shuffled through at complete random, and resetting the playlist will stop the video and delete the shuffle list.<br/>
-                                Pressing the pause/play button will pause/play the video, though you can pause/play the video from the video player.
-                                Pressing the next video button will change the video to the next video in the shuffle list, and pressing the previous video button while change it to the previous video.<br/>
+                                Clicking the Pause/Play button will pause/play the video, or you can pause/play the video from the video player.<br/>
+                                Clicking the Next Video button will change the video to the next video in the shuffle list, and pressing the previous video button while change it to the previous video.<br/>
                                 You can only go backwards by one video when pressing the Previous Video button.
                             </h2>
                         </div>
@@ -72,7 +76,7 @@ const AboutSection = () => {
                             <h1>7. Priority Setter</h1>
                             <h2>
                                 Unique to this website is the Priority Setter, which allows you to adjust the likelihood of randomly encountering a certain video in a playlist.<br/>
-                                Insert a Playlist Item ID into the Insert Playlist ID bar, insert a positive number into the Insert Priority Value bar, then click the Set Priority button to adjust the priority of a single video.<br/>
+                                Insert a Playlist Item ID into the Playlist Item ID bar, insert a positive number into the Priority Value bar, then click the Set Priority button to adjust the priority of a single video.<br/>
                                 Clicking the Reset Priority button will reset the priorty for every video and create a new shuffle list.<br/>
                                 The likelihood of a playlist item appearing is based on the priority value and the size of the playlist.<br/>
                                 Higher priority values will increase the likelihood of a playlist item appearing, but the larger a playlist is, the less likely a certain video will be selected randomly.<br/><br/>
@@ -86,12 +90,13 @@ const AboutSection = () => {
         else {
             toggleAboutSectionVisibility(false);
             setAboutSection();
+            setAboutSectionButtonStyle('about-section-button');
         }
     }
     
     return (
         <div className='about-section'>
-            <div className='about-section-button-container'><div className='about-section-button' onClick={handleToggleAboutSection}>{isAboutSectionVisible ? 'Hide' : 'About'}</div></div>
+            <div className='about-section-button-container'><div className={aboutSectionButtonStyle} onClick={handleToggleAboutSection}>{isAboutSectionVisible ? 'Hide' : 'About'}</div></div>
             {aboutSection}
         </div>
     )

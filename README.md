@@ -15,7 +15,6 @@ Note: Website was not built for mobile devices, expect more bugs on mobile devic
 ## Features To-Do-List
 
 * Replace default alerts with modals
-* The ability to search playlists by title or channel
 
 ## Additional Info
 

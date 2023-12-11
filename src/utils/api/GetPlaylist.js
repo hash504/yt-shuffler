@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const GetPlaylist = (props) => {
+const GetPlaylist = (props) => { // API Handler, also converts data into a React component
 
     const [playlistDisplay, setPlaylistDisplay] = useState();
 
