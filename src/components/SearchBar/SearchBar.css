@@ -39,7 +39,7 @@
     margin-left: 8px;
     height: 53px;
     width: 53px;
-    background: rgb(85, 85, 85);
+    background: rgb(80, 80, 80);
     border: 3px solid rgb(40, 40, 40);
     border-left: 0px;
 }
@@ -61,7 +61,7 @@
     position: absolute;
     width: 100%;
     min-width: 1700px;
-    min-height: 800px;
+    min-height: 850px;
     margin-top: 35px;
     padding-bottom: 25px;
     display: grid;
@@ -72,16 +72,16 @@
 .playlist-container {
     grid-area: 1 / 2 / 2 / 3;
     min-width: 750px;
-    min-height: 800px;
+    min-height: 850px;
 }
 
 .controlpanel-container {
     grid-area: 1 / 4 / 2 / 5;
     min-width: 750px;
-    min-height: 800px;
+    min-height: 850px;
 }
 
-@media screen and (max-width: 1715px) {
+@media screen and (max-width: 1650px) {
     .content-containers {
         width: 100%;
         min-width: 750px;

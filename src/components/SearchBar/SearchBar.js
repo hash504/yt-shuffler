@@ -3,7 +3,6 @@ import './SearchBar.css';
 import addIcon from './add_icon.png';
 import Playlist from '../Playlist/Playlist';
 import ControlPanel from '../ControlPanel/ControlPanel';
-import AlertModal from '../AlertModal/AlertModal';
 import GetPlaylistData from '../../utils/api/GetPlaylistData';
 
 const SearchBar = (props) => {
@@ -40,7 +39,7 @@ const SearchBar = (props) => {
             }
         }
         else {
-            alert("No URL Provided.");
+            alert("No URL provided.");
         }
     }
 

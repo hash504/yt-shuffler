@@ -1,6 +1,6 @@
 .control-panel {
     width: 750px;
-    height: 800px;
+    height: 815px;
     background: rgb(90, 90, 90);
     border: 5px solid rgb(40, 40, 40);
     display: grid;
@@ -41,11 +41,7 @@
 .next-button-container { grid-area: 2 / 5 / 3 / 6; }
 .prev-button-container { grid-area: 2 / 6 / 3 / 7; }
 
-.set-video-button:hover:not(.is-clickable) {
-    cursor: not-allowed;
-}
-
-.start-button, .reset-button, .pause-button, .next-button, .prev-button {
+.video-controls-container button:not(.set-video-button) {
     width: 90%;
     margin: auto;
     display: block;
@@ -73,8 +69,9 @@
     position: relative;
 }
 
-.start-button:hover:not(.is-clickable-no-italic), .reset-button:hover:not(.is-clickable-no-italic), .pause-button:hover:not(.is-clickable), .next-button:hover:not(.is-clickable), .prev-button:hover:not(.is-clickable) {
-    cursor: not-allowed;
+.video-controls-container button:hover {
+    background: rgb(110, 110, 110);
+    cursor: pointer;
 }
 
 .set-video-container input {
@@ -135,6 +132,8 @@
 }
 
 .volume-slider {
+    -webkit-appearance: none;
+    appearance: none;
     width: 98%;
 }
 
@@ -146,7 +145,7 @@
     grid-area: 3 / 1 / 4 / 2;
     display: grid;
     grid-template-columns: 2fr 1fr;
-    grid-template-rows: 50px 65px 50px;
+    grid-template-rows: 50px 75px 75px;
 }
 .priority-setter-title-container {
     grid-area: 1 / 1 / 2 / 3;
@@ -178,9 +177,11 @@
 
 .set-priority-button, .reset-priority-button {
     width: 80%;
-    background: rgb(70, 70, 70);
+    background: rgb(80, 80, 80);
 }
 
-.set-priority-button:hover:not(.is-clickable), .reset-priority-button:hover:not(.is-clickable) {
-    cursor: not-allowed;
+.set-priority-button:hover, .reset-priority-button:hover {
+    background: rgb(110, 110, 110);
+    font-style: italic;
+    cursor: pointer;
 }

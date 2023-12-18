@@ -1,42 +1,17 @@
-.playlist-search-container {
-    display: grid;
-    grid-template-columns: 560px 190px;
-    grid-template-rows: 1fr;
-}
-
-.playlist-search-container input {
-    grid-area: 1 / 1 / 2 / 2;
+.playlist-search input {
     font-family: 'Oswald', sans-serif;
-    width: 535px;
+    width: 738px;
     height: 43px;
     color: white;
     background: rgb(70, 70, 70);
     border: 5px solid rgb(40, 40, 40);
-    border-right: 0;
     font-size: 25px;
     padding-left: 10px;
-    padding-right: 10px;
-}
-
-.search-by-menu {
-    font-family: 'Oswald', sans-serif;
-    width: 105%;
-    grid-area: 1 / 2 / 2 / 3;
-    background: rgb(70, 70, 70);
-    border: 5px solid rgb(40, 40, 40);
-    font-size: 26px;
-    text-align: center;
-    color: white;
-    padding-top: 3px;
-}
-
-.search-by-menu:hover:not(.is-clickable) {
-    cursor: not-allowed;
 }
 
 .playlist {
     width: 750px;
-    height: 750px;
+    height: 765.5px;
     background: rgb(90, 90, 90);
     border: 5px solid rgb(40, 40, 40);
     border-top: 0px;
@@ -51,7 +26,7 @@
     text-overflow: ellipsis;
 }
 
-.list-item-container {
+.list-item-container, .list-item-container-clickable {
     width: 735px;
     height: 110px;
     margin: 5px 0;
@@ -61,6 +36,10 @@
     grid-template-rows: 65px 45px;
     border-top: 5px solid rgb(55, 55, 55);
     border-bottom: 5px solid rgb(55, 55, 55);
+}
+
+.list-item-container-clickable:hover {
+    border-color: rgb(200,200,200);
 }
 
 #top-item {

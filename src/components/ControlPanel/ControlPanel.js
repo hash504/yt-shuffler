@@ -1,5 +1,4 @@
 import React, { useState, forwardRef, useImperativeHandle, useEffect } from 'react';
-import RangeSlider from 'react-bootstrap-range-slider';
 import './ControlPanel.css';
 import VideoPlayer from '../VideoPlayer/VideoPlayer';
 
@@ -19,34 +18,38 @@ const ControlPanel = forwardRef((props, ref) => {
     const [videoSelection, setVideoSelection] = useState();
     const [volume, setVolume] = useState(0.5);
 
+    function handleVideoSetChange(event) {
+        setVideoSelection(event.target.value);
+    }
+
     function changeVideo() {
-        if (isPlaylistReady === true) {
-            if (videoSelection) { // Check 1: if videoSelection exists
-                if (videoSelection > 0) { // Check 2: if videoSelection is a positive number
-                    if (videoSelection <= props.playlistData.length) { // Check 3: if videoSelection is within the bounds of the playlist
-                        setPrevVideo(currentVideo)
-                        setCurrentVideo(props.playlistData[videoSelection - 1].url.slice(0, 43));
-                    }
-                    else {
-                        alert('Playlist Item ID not found.')
-                    }
+        if (videoSelection) { // Check 1: if videoSelection exists
+            if (videoSelection > 0) { // Check 2: if videoSelection is a positive number
+                if (videoSelection <= props.playlistData.length) { // Check 3: if videoSelection is within the bounds of the playlist
+                    setCurrentVideo(props.playlistData[videoSelection - 1].url.slice(0, 43));
                 }
                 else {
-                    alert('Please input a positive number for the ID.')
+                    alert('Playlist Item ID not found.')
                 }
             }
             else {
-                alert('No Playlist Item ID selected.');
-            }    
+                alert('Please input a positive number for the ID.')
+            }
         }
-        
+        else {
+            alert('No Playlist Item ID selected.');
+        }
+    }
+
+    function handleVolumeChange(event) {
+        setVolume(Number(event.target.value));
     }
 
     function handleVolumeIconChange() {
-        if (volume >= 0.75) {
+        if (volume > 0.75) {
             return volumeHigh;
         }
-        else if (volume >= 0.25 && volume < 0.75) {
+        else if (volume >= 0.25 && volume <= 0.75) {
             return volumeMid;
         }
         else if (volume > 0 && volume < 0.25) {
@@ -208,7 +211,7 @@ const ControlPanel = forwardRef((props, ref) => {
     }
 
     function handlePrioritySet() {
-        if (isPlaylistReady) { // Check 1: Playlist is ready
+        if (isPlaylistReady) { // Check 1: Playlist is ready and active
             if (isPlaylistActive) {
                 if(priorityID <= props.playlistData.length && priorityID > 0) { // Check 2: If the priorityID is within the bounds of the playlist (NOT the shuffleList)
                     if (priorityValue >= 0) { // Check 3: If  priorityValue is a positive number
@@ -234,50 +237,11 @@ const ControlPanel = forwardRef((props, ref) => {
     }
 
     function handlePriorityReset() {
-        if (isPlaylistReady) {
+        if (isPlaylistReady && isPlaylistActive) {
             setShuffleList(createShuffle(props.playlistData));
             console.log('Priority reset.');
         }
     }
-
-    // Styling states below
-
-    const [setVideoStyle, setSetVideoStyle] = useState('set-video-button');
-    const [startButtonStyle, setStartButtonStyle] = useState('start-button');
-    const [resetButtonStyle, setResetButtonStyle] = useState('reset-button');
-    const [pauseButtonStyle, setPauseButtonStyle] = useState('pause-button');
-    const [nextButtonStyle, setNextButtonStyle] = useState('next-button');
-    const [prevButtonStyle, setPrevButtonStyle] = useState('prev-button');
-    const [setPriorityStyle, setSetPriorityStyle] = useState('set-priority-button');
-    const [resetPriorityStyle, setResetPriorityStyle] = useState('reset-priority-button');
-
-    useEffect(() => { // Checks the states of isPlaylistReady and isPlaylistActive every render and updates styling accordingly
-        if (isPlaylistReady === true) {
-            setSetVideoStyle('set-video-button is-clickable');
-            setStartButtonStyle('start-button is-clickable-no-italic');
-            setResetButtonStyle('reset-button is-clickable-no-italic');
-            setSetPriorityStyle('set-priority-button is-clickable');
-            setResetPriorityStyle('reset-priority-button is-clickable');
-        }
-        else {
-            setSetVideoStyle('set-video-button');
-            setStartButtonStyle('start-button');
-            setResetButtonStyle('reset-button');
-            setSetPriorityStyle('set-priority-button');
-            setResetPriorityStyle('reset-priority-button');
-        }
-
-        if (isPlaylistReady === true && isPlaylistActive === true) {
-            setPauseButtonStyle('pause-button is-clickable');
-            setNextButtonStyle('next-button is-clickable');
-            setPrevButtonStyle('prev-button is-clickable');
-        }
-        else {
-            setPauseButtonStyle('pause-button');
-            setNextButtonStyle('next-button');
-            setPrevButtonStyle('prev-button');
-        }
-    })
 
     return (
         <div className='control-panel'>
@@ -293,35 +257,28 @@ const ControlPanel = forwardRef((props, ref) => {
             </div>
             <div className='video-controls-container'>
                 <div className='set-video-container'>
-                    <input className='set-video-bar' name='set-video-bar' placeholder='Insert Playlist Item ID...' onChange={(event) => setVideoSelection(event.target.value)}/>
-                    <button className={setVideoStyle} onClick={changeVideo}>Set Video</button>
+                    <input className='set-video-bar' name='set-video-bar' placeholder='Insert Playlist Item ID...' onChange={handleVideoSetChange}/>
+                    <button className='set-video-button' onClick={changeVideo}>Set Video</button>
                 </div>
                 <div className='set-volume-container'>
                     <div className='volume-icon-container'><img src={handleVolumeIconChange()} className='volume-icon' alt='Volume Icon'/></div>
-                    <div className='volume-slider-container'>
-                        <RangeSlider
-                            min={0} max={1} step={0.01}
-                            className='volume-slider'
-                            onChange={(event) => setVolume(event.target.value)}
-                            variant="info"
-                        />
-                    </div>
+                    <div className='volume-slider-container'><input name='volume-slider' type='range' min={0} max={1} step={0.01} value={volume} className='volume-slider' onChange={handleVolumeChange}/></div>
                     <div className='volume-amount-container'>Volume: {Math.round(volume * 100)}%</div>
                 </div>
                 <div className='start-button-container'>
-                    <button className={startButtonStyle} title='Start Playlist' onClick={handleStartPlaylist}><div>Start</div></button>
+                    <button className='start-button' title='Start Playlist' onClick={handleStartPlaylist}><div>Start</div></button>
                 </div>
                 <div className='reset-button-container'>
-                    <button className={resetButtonStyle} title='Reset Playlist' onClick={handleResetPlaylist}><div>Reset</div></button>
+                    <button className='reset-button' title='Reset Playlist' onClick={handleResetPlaylist}><div>Reset</div></button>
                 </div>
                 <div className='pause-button-container'>
-                    <button className={pauseButtonStyle} title={isVideoPlaying ? 'Pause Video' : 'Play Video'} onClick={handlePauseAndPlay}><img src={isVideoPlaying ? pauseButton : playButton} alt={isVideoPlaying ? 'Pause Button' : 'Play Button'}/></button>
+                    <button className='pause-button' title={isVideoPlaying ? 'Pause Video' : 'Play Video'} onClick={handlePauseAndPlay}><img src={isVideoPlaying ? pauseButton : playButton} alt={isVideoPlaying ? 'Pause Button' : 'Play Button'}/></button>
                 </div>
                 <div className='next-button-container'>
-                    <button className={nextButtonStyle} title='Next Video' onClick={handleNextVideo}><img src={nextButton} alt='Next Video Button'/></button>
+                    <button className='next-button' title='Next Video' onClick={handleNextVideo}><img src={nextButton} alt='Next Video Button'/></button>
                 </div>
                 <div className='prev-button-container'>
-                    <button className={prevButtonStyle} title='Previous Video' onClick={handlePrevVideo}><img src={prevButton} alt='Previous Video Button'/></button>
+                    <button className='prev-button' title='Previous Video' onClick={handlePrevVideo}><img src={prevButton} alt='Previous Video Button'/></button>
                 </div>
                 
             </div>
@@ -334,10 +291,10 @@ const ControlPanel = forwardRef((props, ref) => {
                     <input className='value-bar' name ='value-bar' placeholder='Insert Priority value...' onChange={handlePriorityValueChange}/>
                 </div>
                 <div className='set-priortiy-button-container'> 
-                    <button className={setPriorityStyle} onClick={handlePrioritySet}>Set Priority</button>
+                    <button className='set-priority-button' onClick={handlePrioritySet}>Set Priority</button>
                 </div>
                 <div className='reset-priority-button-container'>
-                    <button className={resetPriorityStyle} onClick={handlePriorityReset}>Reset Priority</button>
+                    <button className='reset-priority-button' onClick={handlePriorityReset}>Reset Priority</button>
                 </div>
             </div>
         </div>
