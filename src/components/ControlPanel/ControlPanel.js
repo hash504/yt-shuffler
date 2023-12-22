@@ -183,9 +183,11 @@ const ControlPanel = forwardRef((props, ref) => {
         }
     }
 
-    function handleNextVideo() {
+    function handleNextVideo(autoplay) {
         if (isPlaylistActive === true && isPlaylistReady === true) {
-            setVideoPlaying(false);
+            if (autoplay === false) {
+                setVideoPlaying(false);
+            }
             if (isPrevVideoActive === false) {
                 handleSetVideo();
             }
@@ -306,7 +308,7 @@ const ControlPanel = forwardRef((props, ref) => {
                     pip={true}
                     controls={true}
                     playing={isVideoPlaying}
-                    onEnded={() => handleNextVideo()}
+                    onEnded={() => handleNextVideo(true)}
                     onPlay={() => setVideoPlaying(true)}
                     onPause={() => setVideoPlaying(false)}
                 />
@@ -337,7 +339,7 @@ const ControlPanel = forwardRef((props, ref) => {
                     <button className={pauseButtonStyle} title={isVideoPlaying ? 'Pause Video' : 'Play Video'} onClick={handlePauseAndPlay}><img src={isVideoPlaying ? pauseButton : playButton} alt={isVideoPlaying ? 'Pause Button' : 'Play Button'}/></button>
                 </div>
                 <div className='next-button-container'>
-                    <button className={nextButtonStyle} title='Next Video' onClick={handleNextVideo}><img src={nextButton} alt='Next Video Button'/></button>
+                    <button className={nextButtonStyle} title='Next Video' onClick={() => handleNextVideo(false)}><img src={nextButton} alt='Next Video Button'/></button>
                 </div>
                 <div className='prev-button-container'>
                     <button className={prevButtonStyle} title='Previous Video' onClick={handlePrevVideo}><img src={prevButton} alt='Previous Video Button'/></button>
