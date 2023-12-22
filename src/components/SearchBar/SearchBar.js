@@ -22,7 +22,7 @@ const SearchBar = (props) => {
         
     }
 
-    function loadPlaylist() { // Checks the url three times, once for if it's not undefined, once for if it includes the beginning of the youtube url, and once if it only includes letters, numbers and hyphens.
+    function loadPlaylist() { // Checks the url three times, once for if it's not undefined, once for if it includes the beginning of the youtube url, and once if it only includes letters, numbers, -, _, & and =.
         if (playlistUrl && targetUrl) {
             if (playlistUrl.includes('youtube.com/playlist?list=')) {
                 if ((/([^A-Za-z0-9-_&=])/g).test(targetUrl)) {
@@ -39,7 +39,7 @@ const SearchBar = (props) => {
             }
         }
         else {
-            alert("No URL provided.");
+            alert("No URL Provided.");
         }
     }
 

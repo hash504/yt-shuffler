@@ -1,26 +1,23 @@
 h1 {
     color: rgb(30, 30, 30);
-    margin-top: 10px;
+    margin-top: 0px;
     font-size: 48px;
     margin-bottom: -25px;
     font-weight: bold;
-  }
+}
   
-  h2 {
+h2 {
     color: rgb(30, 30, 30);
     font-size: 28px;
     line-height: 110%;
-  }
+}
 
 .about-section {
     position: absolute;
-    margin-top: 900px;
-    width: 100%;
+    margin-top: 870px;
+    width: 99.9%;
+    min-width: 808px;
     margin-left: -8px;
-}
-
-.about-section-button-container {
-    width: 99.4%;
 }
 
 .about-section-button {
@@ -30,6 +27,11 @@ h1 {
     text-decoration: underline;
     width: 7%;
     margin: auto;
+    margin-bottom: 35px;
+}
+
+.about-section-visible {
+    margin-bottom: 5px;
 }
 
 .about-section-button:hover {
@@ -38,15 +40,15 @@ h1 {
 }
 
 .about-section-info {
+    min-height: 2090px;
     text-align: center;
-    background: rgb(90, 90, 90);
+    background: rgb(110, 110, 110);
     border-top: 5px solid rgb(40, 40, 40);
     border-bottom: 5px solid rgb(40, 40, 40);
     margin-bottom: 10px;
     padding-left: 20px;
     padding-right: 20px;
-    min-height: 1200px;
-    min-width: 1820px;
+    min-width: 808px;
 }
 
 .about-section-info div {
@@ -61,22 +63,34 @@ h1 {
 }
 
 .info-sections {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: 180px 210px 390px 340px;
-    overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     white-space: wrap;
 }
-.sec1 { grid-area: 1 / 1 / 2 / 2; }
-.sec2 { grid-area: 1 / 2 / 2 / 3; }
-.sec3 { grid-area: 2 / 1 / 3 / 2; }
-.sec4 { grid-area: 2 / 2 / 3 / 3; }
-.sec5 { grid-area: 3 / 1 / 4 / 2; }
-.sec6 { grid-area: 3 / 2 / 4 / 3; }
-.sec7 { grid-area: 4 / 1 / 5 / 3; }
+.sec1, .sec2, .sec3, .sec4, .sec5, .sec6 {
+    min-width: 400px;
+    max-width: 850px;
+}
+.sec1, .sec2 { min-height: 210px; }
+.sec3, .sec4 { min-height: 210px; }
+.sec5, .sec6 { min-height: 390px; }
+.sec7 { min-height: 300px; min-width: 800px; max-width: 1715px; }
 
-@media screen and (max-width: 1650px) {
+@media screen and (max-width: 1715px) {
     .about-section {
-        margin-top: 1820px
+        margin-top: 1740px
+    }
+}
+
+@media screen and (max-width: 1816px) {
+    .about-section-info {
+        min-height: 2700px
+    }
+    .sec1, .sec4 {
+        min-height: 180px;
+    }
+    .sec5 {
+        min-height: 360px;
     }
 }

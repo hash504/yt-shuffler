@@ -19,7 +19,6 @@ const GetPlaylistData = (playlistUrl) => { // A separate API handler that just r
             })
             .then(response => {
                 if(response.error) {
-                    console.log(response.error);
                     console.log(`${response.error.code}: ${response.error.message}`);
                 }
                 else {
@@ -33,6 +32,7 @@ const GetPlaylistData = (playlistUrl) => { // A separate API handler that just r
                 apiCall(response.nextPageToken);
             }
             else {
+                
                 console.log("Data Request successfully fulfilled.");
                 setResults(apiResults); 
             }

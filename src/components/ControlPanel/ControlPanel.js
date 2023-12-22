@@ -1,6 +1,6 @@
 import React, { useState, forwardRef, useImperativeHandle, useEffect } from 'react';
 import './ControlPanel.css';
-import VideoPlayer from '../VideoPlayer/VideoPlayer';
+import ReactPlayer from 'react-player';
 
 import playButton from './imgs/play-button.png';
 import pauseButton from './imgs/pause-button.png';
@@ -16,40 +16,40 @@ import volumeOff from './imgs/volume-icons/volume-off.png';
 const ControlPanel = forwardRef((props, ref) => {
 
     const [videoSelection, setVideoSelection] = useState();
-    const [volume, setVolume] = useState(0.5);
-
-    function handleVideoSetChange(event) {
-        setVideoSelection(event.target.value);
-    }
+    const [volume, setVolume] = useState(1);
+    const [prevVolume, setPrevVolume] = useState();
+    const [isMuted, setMute] = useState(false);
+    const [muteButtonTitle, setMuteButtonTitle] = useState("Mute");
 
     function changeVideo() {
-        if (videoSelection) { // Check 1: if videoSelection exists
-            if (videoSelection > 0) { // Check 2: if videoSelection is a positive number
-                if (videoSelection <= props.playlistData.length) { // Check 3: if videoSelection is within the bounds of the playlist
-                    setCurrentVideo(props.playlistData[videoSelection - 1].url.slice(0, 43));
+        if (isPlaylistReady === true) {
+            if (videoSelection) { // Check 1: if videoSelection exists
+                if (videoSelection > 0) { // Check 2: if videoSelection is a positive number
+                    if (videoSelection <= props.playlistData.length) { // Check 3: if videoSelection is within the bounds of the playlist
+                        setVideoPlaying(false);
+                        setPrevVideo(currentVideo);
+                        setCurrentVideo(props.playlistData[videoSelection - 1].url.slice(0, 43));
+                    }
+                    else {
+                        alert('Playlist Item ID not found.')
+                    }
                 }
                 else {
-                    alert('Playlist Item ID not found.')
+                    alert('Please input a positive number for the ID.')
                 }
             }
             else {
-                alert('Please input a positive number for the ID.')
-            }
+                alert('No Playlist Item ID selected.');
+            }    
         }
-        else {
-            alert('No Playlist Item ID selected.');
-        }
-    }
-
-    function handleVolumeChange(event) {
-        setVolume(Number(event.target.value));
+        
     }
 
     function handleVolumeIconChange() {
-        if (volume > 0.75) {
+        if (volume >= 0.75) {
             return volumeHigh;
         }
-        else if (volume >= 0.25 && volume <= 0.75) {
+        else if (volume >= 0.25 && volume < 0.75) {
             return volumeMid;
         }
         else if (volume > 0 && volume < 0.25) {
@@ -60,7 +60,22 @@ const ControlPanel = forwardRef((props, ref) => {
         }
     }
 
-    /***** BUTTON FUNCTIONS BELOW *****/
+    function handleToggleMute() {
+        if (isMuted === false) {
+            setMute(true);
+            setPrevVolume(volume);
+            setVolume(0);
+            setMuteButtonTitle("Unmute");
+        }
+        else if (isMuted === true) {
+            setMute(false);
+            setVolume(prevVolume);
+            setPrevVolume(0);
+            setMuteButtonTitle("Mute");
+        }
+    }
+
+    // Button Functions Below
 
     const [isPlaylistReady, setPlaylistReady] = useState(false); // Enables use of the Start and Reset playlist buttons, as well as the Priority Setter
     const [isPlaylistActive, setPlaylistActive] = useState(false); // Enables use of the Play/Pause, Next and Previous Video buttons
@@ -88,7 +103,7 @@ const ControlPanel = forwardRef((props, ref) => {
     }, [isPlaylistActive, isPlaylistReady])
 
 
-    useEffect(() => { // Only triggers when the current video changes, it's for removing the current video from the shuffle list
+    useEffect(() => { // Only triggers when the current video changes, for removing the current video from the shuffle list
         if (shuffleList) {
             setShuffleList((index) => index.filter(i => i !== shuffleList[currentVideoIndex]));
         }
@@ -170,6 +185,7 @@ const ControlPanel = forwardRef((props, ref) => {
 
     function handleNextVideo() {
         if (isPlaylistActive === true && isPlaylistReady === true) {
+            setVideoPlaying(false);
             if (isPrevVideoActive === false) {
                 handleSetVideo();
             }
@@ -184,8 +200,8 @@ const ControlPanel = forwardRef((props, ref) => {
 
     function handlePrevVideo() {
         if (isPlaylistActive === true && isPlaylistReady === true) {
-            //alert('Feature unimplemented.');
             if (prevVideo && isPrevVideoActive === false) {
+                setVideoPlaying(false);
                 setPrevVideo(currentVideo);
                 setCurrentVideo(prevVideo);
                 setPrevVideoActive(true);
@@ -197,7 +213,7 @@ const ControlPanel = forwardRef((props, ref) => {
         }
     }
 
-    /***** PRIORITY SETTER FUNCTIONS BELOW *****/
+    // Priority Setter Functions Below
 
     const [priorityID, setPriorityID] = useState();
     const [priorityValue, setPriorityValue] = useState();
@@ -211,74 +227,120 @@ const ControlPanel = forwardRef((props, ref) => {
     }
 
     function handlePrioritySet() {
-        if (isPlaylistReady) { // Check 1: Playlist is ready and active
-            if (isPlaylistActive) {
-                if(priorityID <= props.playlistData.length && priorityID > 0) { // Check 2: If the priorityID is within the bounds of the playlist (NOT the shuffleList)
-                    if (priorityValue >= 0) { // Check 3: If  priorityValue is a positive number
-                        setShuffleList((index) => index.filter(i => i !== priorityID));
-                        for (let i = 0; i < priorityValue; i++) {
-                            setShuffleList(oldList => [...oldList, priorityID]);
-                        }
-                        alert(`Priority for "${props.playlistData[priorityID - 1].title}" has been set to ${priorityValue}`)
-                        console.log('Priority Set.');
+        if (isPlaylistReady && isPlaylistActive) { // Check 1: Playlist is ready and active
+            if(priorityID <= props.playlistData.length && priorityID > 0) { // Check 2: If the priorityID is within the bounds of the playlist (NOT the shuffleList)
+                if (priorityValue >= 0) { // Check 3: If  priorityValue is a positive number
+                    setShuffleList((index) => index.filter(i => i !== priorityID));
+                    for (let i = 0; i < priorityValue; i++) {
+                        setShuffleList(oldList => [...oldList, priorityID]);
                     }
-                    else {
-                        alert('Please input a positive priority value.');
-                    }
+                    alert(`Priority for "${props.playlistData[priorityID - 1].title}" has been set to ${priorityValue}`)
+                    console.log('Priority Set.');
                 }
                 else {
-                    alert('Playlist Item ID not found.');
-                }
-            }
+                    alert('Please input a positive priority value.');
+                    }                }
             else {
-                alert("Playlist must be started in order to change priority.");
+                alert('Playlist Item ID not found.');
             }
         }
     }
 
     function handlePriorityReset() {
-        if (isPlaylistReady && isPlaylistActive) {
+        if (isPlaylistReady) {
             setShuffleList(createShuffle(props.playlistData));
             console.log('Priority reset.');
         }
     }
 
+    // Styling states below
+
+    const [setVideoStyle, setSetVideoStyle] = useState('set-video-button');
+    const [startButtonStyle, setStartButtonStyle] = useState('start-button');
+    const [resetButtonStyle, setResetButtonStyle] = useState('reset-button');
+    const [pauseButtonStyle, setPauseButtonStyle] = useState('pause-button');
+    const [nextButtonStyle, setNextButtonStyle] = useState('next-button');
+    const [prevButtonStyle, setPrevButtonStyle] = useState('prev-button');
+    const [setPriorityStyle, setSetPriorityStyle] = useState('set-priority-button');
+    const [resetPriorityStyle, setResetPriorityStyle] = useState('reset-priority-button');
+
+    useEffect(() => { // Checks the states of isPlaylistReady and isPlaylistActive every render and updates styling accordingly
+        if (isPlaylistReady === true) {
+            setSetVideoStyle('set-video-button is-clickable');
+            setStartButtonStyle('start-button is-clickable-no-italic');
+            setResetButtonStyle('reset-button is-clickable-no-italic');
+        }
+        else {
+            setSetVideoStyle('set-video-button');
+            setStartButtonStyle('start-button');
+            setResetButtonStyle('reset-button');
+            
+        }
+
+        if (isPlaylistReady === true && isPlaylistActive === true) {
+            setPauseButtonStyle('pause-button is-clickable');
+            setNextButtonStyle('next-button is-clickable');
+            setPrevButtonStyle('prev-button is-clickable');
+            setSetPriorityStyle('set-priority-button is-clickable');
+            setResetPriorityStyle('reset-priority-button is-clickable');
+            setStartButtonStyle('reset-button');
+        }
+        else {
+            setPauseButtonStyle('pause-button');
+            setNextButtonStyle('next-button');
+            setPrevButtonStyle('prev-button');
+            setSetPriorityStyle('set-priority-button');
+            setResetPriorityStyle('reset-priority-button');
+        }
+
+    })
+
     return (
         <div className='control-panel'>
-            <div className='video-player-container'> 
-                <VideoPlayer
-                    isPlaying={isVideoPlaying}
-                    videoUrl={currentVideo}
-                    handleNextVideo={() => handleNextVideo()}
-                    handlePlay={() => {setVideoPlaying(true)}}
-                    handlePause={() => {setVideoPlaying(false)}}
+            <div className='video-player'>
+                <ReactPlayer
+                    url={currentVideo}
+                    width='720px'
+                    height='405px'
                     volume={volume}
+                    pip={true}
+                    controls={true}
+                    playing={isVideoPlaying}
+                    onEnded={() => handleNextVideo()}
+                    onPlay={() => setVideoPlaying(true)}
+                    onPause={() => setVideoPlaying(false)}
                 />
             </div>
             <div className='video-controls-container'>
                 <div className='set-video-container'>
-                    <input className='set-video-bar' name='set-video-bar' placeholder='Insert Playlist Item ID...' onChange={handleVideoSetChange}/>
-                    <button className='set-video-button' onClick={changeVideo}>Set Video</button>
+                    <input className='set-video-bar' name='set-video-bar' placeholder='Insert Playlist Item ID...' onChange={(event) => setVideoSelection(event.target.value)}/>
+                    <button className={setVideoStyle} onClick={changeVideo}>Set Video</button>
                 </div>
                 <div className='set-volume-container'>
-                    <div className='volume-icon-container'><img src={handleVolumeIconChange()} className='volume-icon' alt='Volume Icon'/></div>
-                    <div className='volume-slider-container'><input name='volume-slider' type='range' min={0} max={1} step={0.01} value={volume} className='volume-slider' onChange={handleVolumeChange}/></div>
+                    <div className='volume-icon-container'><img src={handleVolumeIconChange()} className='volume-icon' alt='Volume Icon' onClick={handleToggleMute} title={`Click to ${muteButtonTitle}`}/></div>
+                    <div className='volume-slider-container'>
+                        <input type="range"
+                            min={0} max={1} step={0.01}
+                            className='volume-slider'
+                            onChange={(event) => isMuted === false ? setVolume(event.target.value) : setPrevVolume(event.target.value)}
+                        />
+                    </div>
                     <div className='volume-amount-container'>Volume: {Math.round(volume * 100)}%</div>
                 </div>
                 <div className='start-button-container'>
-                    <button className='start-button' title='Start Playlist' onClick={handleStartPlaylist}><div>Start</div></button>
+                    <button className={startButtonStyle} title='Start Playlist' onClick={handleStartPlaylist}><div>Start</div></button>
                 </div>
                 <div className='reset-button-container'>
-                    <button className='reset-button' title='Reset Playlist' onClick={handleResetPlaylist}><div>Reset</div></button>
+                    <button className={resetButtonStyle} title='Reset Playlist' onClick={handleResetPlaylist}><div>Reset</div></button>
                 </div>
                 <div className='pause-button-container'>
-                    <button className='pause-button' title={isVideoPlaying ? 'Pause Video' : 'Play Video'} onClick={handlePauseAndPlay}><img src={isVideoPlaying ? pauseButton : playButton} alt={isVideoPlaying ? 'Pause Button' : 'Play Button'}/></button>
+                    <button className={pauseButtonStyle} title={isVideoPlaying ? 'Pause Video' : 'Play Video'} onClick={handlePauseAndPlay}><img src={isVideoPlaying ? pauseButton : playButton} alt={isVideoPlaying ? 'Pause Button' : 'Play Button'}/></button>
                 </div>
                 <div className='next-button-container'>
-                    <button className='next-button' title='Next Video' onClick={handleNextVideo}><img src={nextButton} alt='Next Video Button'/></button>
+                    <button className={nextButtonStyle} title='Next Video' onClick={handleNextVideo}><img src={nextButton} alt='Next Video Button'/></button>
                 </div>
                 <div className='prev-button-container'>
-                    <button className='prev-button' title='Previous Video' onClick={handlePrevVideo}><img src={prevButton} alt='Previous Video Button'/></button>
+                    <button className={prevButtonStyle} title='Previous Video' onClick={handlePrevVideo}><img src={prevButton} alt='Previous Video Button'/></button>
                 </div>
                 
             </div>
@@ -291,10 +353,10 @@ const ControlPanel = forwardRef((props, ref) => {
                     <input className='value-bar' name ='value-bar' placeholder='Insert Priority value...' onChange={handlePriorityValueChange}/>
                 </div>
                 <div className='set-priortiy-button-container'> 
-                    <button className='set-priority-button' onClick={handlePrioritySet}>Set Priority</button>
+                    <button className={setPriorityStyle} onClick={handlePrioritySet}>Set Priority</button>
                 </div>
                 <div className='reset-priority-button-container'>
-                    <button className='reset-priority-button' onClick={handlePriorityReset}>Reset Priority</button>
+                    <button className={resetPriorityStyle} onClick={handlePriorityReset}>Reset Priority</button>
                 </div>
             </div>
         </div>

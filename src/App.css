@@ -4,8 +4,24 @@ body {
   overflow-y: scroll;
   overflow-x: hidden;
   font-weight: normal;
+  pointer-events: auto;
 }
 
 body:hover {
   cursor: default;
+}
+
+.is-clickable, button {
+  transition: background-color 0.15s ease;
+}
+
+.is-clickable:hover {
+  background: rgb(110, 110, 110);
+  cursor: pointer;
+  font-style: italic;
+}
+
+.is-clickable-no-italic:hover {
+  background: rgb(110, 110, 110);
+  cursor: pointer;
 }

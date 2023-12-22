@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import fontSizeAdjuster from '../fontSizeAdjuster';
 
-const GetPlaylist = (props) => {
+const GetPlaylist = (props) => { // API Handler, also converts data into a React component
 
     const [playlistDisplay, setPlaylistDisplay] = useState();
 
@@ -25,7 +26,6 @@ const GetPlaylist = (props) => {
             })
             .then(response => {
                 if(response.error) {
-                    console.log(response.error);
                     console.log(`${response.error.code}: ${response.error.message}`);
                     alert('Failed to fetch playlist.');
                 }
@@ -67,7 +67,7 @@ const GetPlaylist = (props) => {
                     let content = (
                         <>
                         {React.createElement('div', {style: {fontSize: i >= 999 ? "48px" : "60px"}, className: 'list-number-container', title: `Playlist item ${i + 1}`}, i + 1)}
-                        <div className='title-container' title={listResults[i].title}>{listResults[i].title}</div>
+                        <div className='title-container' title={listResults[i].title} style={fontSizeAdjuster(listResults[i].title)}>{listResults[i].title}</div>
                         <div className='channel-container' title={listResults[i].channel}>{listResults[i].channel}</div>
                         <a href={listResults[i].url} target="_blank" rel="noreferrer" className='link-container' title='View on YouTube'>View</a>
                         </>
