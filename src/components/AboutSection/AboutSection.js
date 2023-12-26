@@ -19,6 +19,14 @@ const AboutSection = () => {
                         This website was created because i got tired of dealing with YouTube's scuffed shuffle system.<br/>
                         It was made mainly for shuffling through music playlists, so it's not ideal for viewing YouTube videos.
                     </h2>
+                    <h1>Keybinds</h1>
+                    <h2>
+                        Space: Pause/Play Video<br/>
+                        Shift + M: Mute Video<br/>
+                        Shift + Left Arrow: Next Video<br/>
+                        Shift + Right Arrow: Previous Video
+                        
+                    </h2>
                     <h1>How To Use</h1>
                     <img className='info-graphic' alt='Website information graphic' src={graphic}/>
                     <div className='info-sections'>

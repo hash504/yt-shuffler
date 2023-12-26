@@ -86,7 +86,7 @@ const ControlPanel = forwardRef((props, ref) => {
     const [prevVideo, setPrevVideo] = useState(); // The index of the previous video url
     const [isPrevVideoActive, setPrevVideoActive] = useState(false); // If true, hitting the next video button wont pick from the shuffle list. Also prevents going father back then 1 video.
 
-    useEffect(() => { // The function for setting isPlaylistReady
+    useEffect(() => { // The function for setting isPlaylistReady to true
         if (props.playlistData) {
             setPlaylistReady(true);
             console.log('Playlist ready.');
@@ -183,11 +183,8 @@ const ControlPanel = forwardRef((props, ref) => {
         }
     }
 
-    function handleNextVideo(autoplay) {
+    function handleNextVideo() {
         if (isPlaylistActive === true && isPlaylistReady === true) {
-            if (autoplay === false) {
-                setVideoPlaying(false);
-            }
             if (isPrevVideoActive === false) {
                 handleSetVideo();
             }
@@ -203,7 +200,6 @@ const ControlPanel = forwardRef((props, ref) => {
     function handlePrevVideo() {
         if (isPlaylistActive === true && isPlaylistReady === true) {
             if (prevVideo && isPrevVideoActive === false) {
-                setVideoPlaying(false);
                 setPrevVideo(currentVideo);
                 setCurrentVideo(prevVideo);
                 setPrevVideoActive(true);
@@ -241,7 +237,8 @@ const ControlPanel = forwardRef((props, ref) => {
                 }
                 else {
                     alert('Please input a positive priority value.');
-                    }                }
+                    }
+                }
             else {
                 alert('Playlist Item ID not found.');
             }
@@ -254,6 +251,28 @@ const ControlPanel = forwardRef((props, ref) => {
             console.log('Priority reset.');
         }
     }
+
+    // Keyboard Event Function Below
+
+    function handleKeybindPress(event) {
+        event.preventDefault();
+        if (event.key === ' ') {
+            handlePauseAndPlay();
+        }
+        if (event.key === 'ArrowRight' && event.shiftKey === true) {
+            handleNextVideo();
+        }
+        if (event.key === 'ArrowLeft' && event.shiftKey === true) {
+            handlePrevVideo();
+        }
+        if (event.keyCode === 77 && event.shiftKey === true) {
+            handleToggleMute();
+        }
+    }
+    useEffect(() => {
+        window.addEventListener("keyup", handleKeybindPress);
+        return () => window.removeEventListener("keyup", handleKeybindPress);
+    }, [handleKeybindPress]);
 
     // Styling states below
 
@@ -308,7 +327,7 @@ const ControlPanel = forwardRef((props, ref) => {
                     pip={true}
                     controls={true}
                     playing={isVideoPlaying}
-                    onEnded={() => handleNextVideo(true)}
+                    onEnded={() => handleNextVideo()}
                     onPlay={() => setVideoPlaying(true)}
                     onPause={() => setVideoPlaying(false)}
                 />
@@ -339,7 +358,7 @@ const ControlPanel = forwardRef((props, ref) => {
                     <button className={pauseButtonStyle} title={isVideoPlaying ? 'Pause Video' : 'Play Video'} onClick={handlePauseAndPlay}><img src={isVideoPlaying ? pauseButton : playButton} alt={isVideoPlaying ? 'Pause Button' : 'Play Button'}/></button>
                 </div>
                 <div className='next-button-container'>
-                    <button className={nextButtonStyle} title='Next Video' onClick={() => handleNextVideo(false)}><img src={nextButton} alt='Next Video Button'/></button>
+                    <button className={nextButtonStyle} title='Next Video' onClick={handleNextVideo}><img src={nextButton} alt='Next Video Button'/></button>
                 </div>
                 <div className='prev-button-container'>
                     <button className={prevButtonStyle} title='Previous Video' onClick={handlePrevVideo}><img src={prevButton} alt='Previous Video Button'/></button>
