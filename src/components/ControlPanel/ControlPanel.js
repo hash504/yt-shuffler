@@ -16,13 +16,14 @@ import volumeOff from './imgs/volume-icons/volume-off.png';
 const ControlPanel = forwardRef((props, ref) => {
 
     const [videoSelection, setVideoSelection] = useState();
+    const [isAutoplaying, setAutoplaying] = useState(true);
     const [volume, setVolume] = useState(1);
     const [prevVolume, setPrevVolume] = useState();
     const [isMuted, setMute] = useState(false);
     const [muteButtonTitle, setMuteButtonTitle] = useState("Mute");
 
     function changeVideo() {
-        if (isPlaylistReady === true) {
+        if (isPlaylistReady === true && isPlaylistActive === true) {
             if (videoSelection) { // Check 1: if videoSelection exists
                 if (videoSelection > 0) { // Check 2: if videoSelection is a positive number
                     if (videoSelection <= props.playlistData.length) { // Check 3: if videoSelection is within the bounds of the playlist
@@ -185,6 +186,10 @@ const ControlPanel = forwardRef((props, ref) => {
 
     function handleNextVideo() {
         if (isPlaylistActive === true && isPlaylistReady === true) {
+            if (isAutoplaying === false) {
+                setVideoPlaying(false);
+            }
+
             if (isPrevVideoActive === false) {
                 handleSetVideo();
             }
@@ -198,7 +203,11 @@ const ControlPanel = forwardRef((props, ref) => {
     }
 
     function handlePrevVideo() {
+        
         if (isPlaylistActive === true && isPlaylistReady === true) {
+            if (isAutoplaying === false) {
+                setVideoPlaying(false);
+            }
             if (prevVideo && isPrevVideoActive === false) {
                 setPrevVideo(currentVideo);
                 setCurrentVideo(prevVideo);
@@ -287,18 +296,17 @@ const ControlPanel = forwardRef((props, ref) => {
 
     useEffect(() => { // Checks the states of isPlaylistReady and isPlaylistActive every render and updates styling accordingly
         if (isPlaylistReady === true) {
-            setSetVideoStyle('set-video-button is-clickable');
             setStartButtonStyle('start-button is-clickable-no-italic');
             setResetButtonStyle('reset-button is-clickable-no-italic');
         }
         else {
-            setSetVideoStyle('set-video-button');
+            
             setStartButtonStyle('start-button');
             setResetButtonStyle('reset-button');
             
         }
-
         if (isPlaylistReady === true && isPlaylistActive === true) {
+            setSetVideoStyle('set-video-button is-clickable');
             setPauseButtonStyle('pause-button is-clickable');
             setNextButtonStyle('next-button is-clickable');
             setPrevButtonStyle('prev-button is-clickable');
@@ -307,6 +315,7 @@ const ControlPanel = forwardRef((props, ref) => {
             setStartButtonStyle('reset-button');
         }
         else {
+            setSetVideoStyle('set-video-button');
             setPauseButtonStyle('pause-button');
             setNextButtonStyle('next-button');
             setPrevButtonStyle('prev-button');
@@ -336,6 +345,12 @@ const ControlPanel = forwardRef((props, ref) => {
                 <div className='set-video-container'>
                     <input className='set-video-bar' name='set-video-bar' placeholder='Insert Playlist Item ID...' onChange={(event) => setVideoSelection(event.target.value)}/>
                     <button className={setVideoStyle} onClick={changeVideo}>Set Video</button>
+                    <div className='autoplay-button-container'>
+                        <div className='autoplay-text-container'>Autoplay</div>
+                        <div className='autoplay-checkbox-container'>
+                            <input type='checkbox' checked={isAutoplaying} className='autoplay-checkbox' onChange={(e) => {setAutoplaying(e.target.checked)}}/>
+                        </div>
+                    </div>
                 </div>
                 <div className='set-volume-container'>
                     <div className='volume-icon-container'><img src={handleVolumeIconChange()} className='volume-icon' alt='Volume Icon' onClick={handleToggleMute} title={`Click to ${muteButtonTitle}`}/></div>
