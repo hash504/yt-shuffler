@@ -1,6 +1,6 @@
 .control-panel {
     width: 750px;
-    height: 800px;
+    height: 740px;
     background: rgb(90, 90, 90);
     border: 5px solid rgb(40, 40, 40);
     display: grid;
@@ -130,7 +130,9 @@
 }
 
 .set-video-bar::placeholder {
-    font-size: 24px;
+    font-size: 21px;
+    position: absolute;
+    margin-top: 3px;
 }
 
 .set-video-button {
@@ -178,20 +180,20 @@
 .priority-setter-container {
     grid-area: 3 / 1 / 4 / 2;
     display: grid;
-    grid-template-columns: 2fr 1fr;
-    grid-template-rows: 50px 65px 50px;
+    grid-template-columns: 2fr 1fr 2fr 1fr;
+    grid-template-rows: 50px 65px;
 }
 .priority-setter-title-container {
-    grid-area: 1 / 1 / 2 / 3;
+    grid-area: 1 / 1 / 2 / 5;
     padding-top: 10px;
     font-size: 36px;
     text-align: center;
     color: white;
 }
 .id-bar-container { grid-area: 2 / 1 / 3 / 2; }
-.priority-value-bar-container { grid-area: 3 / 1 / 4 / 2; }
 .set-priortiy-button-container { grid-area: 2 / 2 / 3 / 3; }
-.reset-priority-button-container { grid-area: 3 / 2 / 4 / 3; }
+.priority-value-bar-container { grid-area: 2 / 3 / 3 / 4; }
+.reset-priority-button-container { grid-area: 2 / 4 / 3 / 5; }
 
 .id-bar, .value-bar, .set-priority-button, .reset-priority-button {
     color: white;
@@ -204,14 +206,19 @@
 }
 
 .id-bar, .value-bar {
-    width: 85%;
+    width: 88%;
     padding-left: 10px;
     background: rgb(70, 70, 70);
+    margin-right: 0px;
 }
 
 .set-priority-button, .reset-priority-button {
-    width: 80%;
+    width: 90%;
     background: rgb(70, 70, 70);
+    font-size: 19px;
+    height: 45px;
+    margin-left: 0px;
+    border-left: 0px;
 }
 
 .set-priority-button:hover:not(.is-clickable), .reset-priority-button:hover:not(.is-clickable) {

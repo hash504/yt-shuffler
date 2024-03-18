@@ -23,24 +23,30 @@ const ControlPanel = forwardRef((props, ref) => {
     const [muteButtonTitle, setMuteButtonTitle] = useState("Mute");
 
     function changeVideo() {
+
+        let filteredList = []
+        for (let i = 0; i < props.playlistData.length; i++) {
+            if (props.playlistData[i].title.toLowerCase().includes(videoSelection)) {
+                filteredList.push(props.playlistData[i]);
+            }
+        }
+
         if (isPlaylistReady === true && isPlaylistActive === true) {
             if (videoSelection) { // Check 1: if videoSelection exists
-                if (videoSelection > 0) { // Check 2: if videoSelection is a positive number
-                    if (videoSelection <= props.playlistData.length) { // Check 3: if videoSelection is within the bounds of the playlist
-                        setVideoPlaying(false);
-                        setPrevVideo(currentVideo);
-                        setCurrentVideo(props.playlistData[videoSelection - 1].url.slice(0, 43));
-                    }
-                    else {
-                        alert('Playlist Item ID not found.')
-                    }
+                if (filteredList.length === 1) { // Check 2: if filteredList has one item
+                    setVideoPlaying(false);
+                    setPrevVideo(currentVideo);
+                    setCurrentVideo(filteredList[0].url.slice(0, 43));
+                }
+                else if (filteredList.length > 1) {
+                    alert(`Invalid: ${filteredList.length} results found for '${videoSelection}'.`);
                 }
                 else {
-                    alert('Please input a positive number for the ID.')
+                    alert(`Invalid: No results found for '${videoSelection}'.`);
                 }
             }
             else {
-                alert('No Playlist Item ID selected.');
+                alert('No Playlist Item selected.');
             }    
         }
         
@@ -265,7 +271,7 @@ const ControlPanel = forwardRef((props, ref) => {
 
     function handleKeybindPress(event) {
         event.preventDefault();
-        if (event.key === ' ') {
+        if (event.key === ' ' && event.shiftKey === true) {
             handlePauseAndPlay();
         }
         if (event.key === 'ArrowRight' && event.shiftKey === true) {
@@ -343,7 +349,7 @@ const ControlPanel = forwardRef((props, ref) => {
             </div>
             <div className='video-controls-container'>
                 <div className='set-video-container'>
-                    <input className='set-video-bar' name='set-video-bar' placeholder='Insert Playlist Item ID...' onChange={(event) => setVideoSelection(event.target.value)}/>
+                    <input className='set-video-bar' name='set-video-bar' placeholder='Insert Playlist Item Name...' onChange={(event) => setVideoSelection(event.target.value)}/>
                     <button className={setVideoStyle} onClick={changeVideo}>Set Video</button>
                     <div className='autoplay-button-container'>
                         <div className='autoplay-text-container'>Autoplay</div>

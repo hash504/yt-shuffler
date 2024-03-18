@@ -1,13 +1,13 @@
 .search-bar {
-    padding-top: 197px;
+    padding-top: 181px;
     width: 808px;
     margin: auto;
     height: 25px;
     display: grid;
     grid-template-columns: 763px 45px;
     grid-template-rows: 45px;
-    margin-top: -15px;
-    margin-bottom: 58px;
+    margin-top: 10px;
+    margin-bottom: 59px;
 }
 
 .search-bar img {
@@ -61,7 +61,7 @@
     position: absolute;
     width: 99.9%;
     min-width: 1700px;
-    min-height: 800px;
+    min-height: 745px;
     margin-left: -8px;
     padding-bottom: 25px;
     display: flex;
@@ -72,22 +72,22 @@
 
 .playlist-container {
     min-width: 750px;
-    min-height: 800px;
+    min-height: 745px;
 }
 
 .controlpanel-container {
     min-width: 750px;
-    min-height: 800px;
+    min-height: 745px;
 }
 
 @media screen and (max-width: 1715px) {
     .content-containers {
         margin: auto;
         min-width: 820px;
-        height: 1715px;
+        height: 1550px;
         flex-wrap: wrap;
         flex-direction: column;
-        margin-top: 10px;
+        margin-top: -10px;
         margin-left: -8px;
     }
 

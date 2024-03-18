@@ -59,7 +59,6 @@ const Playlist = forwardRef((props, ref) => {
                         {React.createElement('div', {style: {fontSize: filteredList[i].id >= 999 ? "48px" : "60px"}, className: 'list-number-container', title: `Playlist item ${filteredList[i].id + 1}`}, filteredList[i].id + 1)}
                         <div className='title-container' title={filteredList[i].title} style={fontSizeAdjuster(filteredList[i].title)}>{filteredList[i].title}</div>
                         <div className='channel-container' title={filteredList[i].channel}>{filteredList[i].channel}</div>
-                        <a href={filteredList[i].url} target="_blank" rel="noreferrer" className='link-container' title='View on YouTube'>View</a>
                         </>
                     )
             

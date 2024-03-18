@@ -21,7 +21,7 @@ const AboutSection = () => {
                     </h2>
                     <h1>Keybinds</h1>
                     <h2>
-                        Space: Pause/Play Video<br/>
+                        Shift + Space: Pause/Play Video<br/>
                         Shift + M: Mute Video<br/>
                         Shift + Left Arrow: Next Video<br/>
                         Shift + Right Arrow: Previous Video
@@ -48,7 +48,7 @@ const AboutSection = () => {
                             <h1>3. Playlist Item List</h1>
                             <h2>
                                 This is where each playlist item is shown.<br/>
-                                It includes the title, channel name, a Playlist Item ID, and a link to the video on YouTube.<br/>
+                                It includes the title, channel name, and a Playlist Item ID<br/>
                                 If the title of a video isn't fully visible, you can hover over it and it will be shown.
                             </h2>
                         </div>
@@ -63,7 +63,7 @@ const AboutSection = () => {
                             <h1>5. Set Video & Set Volume</h1>
                             <h2>
                                 Here is where you can set the video manuually as well as the volume.<br/>
-                                Insert a Playlist Item ID into the Insert Playlist ID bar, and pressing the Set Video button will change the video.<br/>
+                                Insert the name of a playlist item into the Insert Playlist Name bar, and pressing the Set Video button will change the video.<br/>
                                 You can use the Set Video bar to set the video independent of the shuffle.<br/><br/>
                                 The Volume Slider is how you control the volume of the video. Slide it to the left to decrease the volume, or to the right to increase it.<br/>
                                 While you can change the volume in the video player, it will <i>not</i> update the Set Volume bar.
