@@ -45,12 +45,14 @@ const GetPlaylistData = (playlistUrl) => { // A separate API handler that just r
             let id = 0;   
             for (let i = 0; i < results.length; i++) {
                 for (let j = 0; j < results[i].items.length; j++) {
-                    listResults.push({
-                        id: id,
-                        url: `https://www.youtube.com/watch?v=${results[i].items[j].snippet.resourceId.videoId}&list=${playlistUrl}`,
-                        title: results[i].items[j].snippet.title,
-                        channel: results[i].items[j].snippet.videoOwnerChannelTitle
-                    })
+                    if (results[i].items[j].snippet.title !== "Deleted video") {
+                        listResults.push({
+                            id: id,
+                            url: `https://www.youtube.com/watch?v=${results[i].items[j].snippet.resourceId.videoId}&list=${playlistUrl}`,
+                            title: results[i].items[j].snippet.title,
+                            channel: results[i].items[j].snippet.videoOwnerChannelTitle
+                        })
+                    }
                     id++;
                 }
             }

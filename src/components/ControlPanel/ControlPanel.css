@@ -72,6 +72,9 @@
     margin-top: 8px;
     margin-left: 82px;
 }
+.autoplay-checkbox:hover {
+    cursor: pointer;
+}
 
 
 .set-video-button:hover:not(.is-clickable) {
@@ -149,6 +152,9 @@
 
 .volume-icon-container {
     grid-area: 1 / 1 / 3 / 2;
+}
+.volume-icon-container:hover {
+    cursor: pointer;
 }
 .volume-icon-container img {
     width: 75%;

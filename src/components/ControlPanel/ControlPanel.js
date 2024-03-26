@@ -24,25 +24,38 @@ const ControlPanel = forwardRef((props, ref) => {
 
     function changeVideo() {
 
-        let filteredList = []
-        for (let i = 0; i < props.playlistData.length; i++) {
-            if (props.playlistData[i].title.toLowerCase().includes(videoSelection)) {
-                filteredList.push(props.playlistData[i]);
-            }
-        }
+        if (isPlaylistReady === true) {
 
-        if (isPlaylistReady === true && isPlaylistActive === true) {
+            let filteredList = []
+            for (let i = 0; i < props.playlistData.length; i++) {
+                if (props.playlistData[i].title.toLowerCase().includes(videoSelection)) {
+                    filteredList.push(props.playlistData[i]);
+                }
+            }
+            
             if (videoSelection) { // Check 1: if videoSelection exists
                 if (filteredList.length === 1) { // Check 2: if filteredList has one item
                     setVideoPlaying(false);
                     setPrevVideo(currentVideo);
                     setCurrentVideo(filteredList[0].url.slice(0, 43));
                 }
-                else if (filteredList.length > 1) {
-                    alert(`Invalid: ${filteredList.length} results found for '${videoSelection}'.`);
+                else if (filteredList.length > 1) { // The below for loop and conditionals handle displaying the first 5 results for the specified term
+                    let resultsList = '';
+                    for (let i = 0; i < 5; i++) {
+                        if (i < filteredList.length) {
+                            resultsList += `  ${filteredList[i].title}\n`
+                        }
+                        
+                    }
+                    if (filteredList.length > 5) {
+                        alert(`${filteredList.length} results found for '${videoSelection}':\n${resultsList}...and ${filteredList.length - 5} more.`);
+                    }
+                    else {
+                        alert(`${filteredList.length} results found for '${videoSelection}':\n${resultsList}\n`);
+                    }
                 }
                 else {
-                    alert(`Invalid: No results found for '${videoSelection}'.`);
+                    alert(`No results found for '${videoSelection}'.`);
                 }
             }
             else {
@@ -304,15 +317,15 @@ const ControlPanel = forwardRef((props, ref) => {
         if (isPlaylistReady === true) {
             setStartButtonStyle('start-button is-clickable-no-italic');
             setResetButtonStyle('reset-button is-clickable-no-italic');
+            setSetVideoStyle('set-video-button is-clickable');
         }
         else {
-            
+            setSetVideoStyle('set-video-button');
             setStartButtonStyle('start-button');
             setResetButtonStyle('reset-button');
             
         }
         if (isPlaylistReady === true && isPlaylistActive === true) {
-            setSetVideoStyle('set-video-button is-clickable');
             setPauseButtonStyle('pause-button is-clickable');
             setNextButtonStyle('next-button is-clickable');
             setPrevButtonStyle('prev-button is-clickable');
@@ -321,7 +334,6 @@ const ControlPanel = forwardRef((props, ref) => {
             setStartButtonStyle('reset-button');
         }
         else {
-            setSetVideoStyle('set-video-button');
             setPauseButtonStyle('pause-button');
             setNextButtonStyle('next-button');
             setPrevButtonStyle('prev-button');

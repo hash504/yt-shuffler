@@ -23,8 +23,8 @@ const AboutSection = () => {
                     <h2>
                         Shift + Space: Pause/Play Video<br/>
                         Shift + M: Mute Video<br/>
-                        Shift + Left Arrow: Next Video<br/>
-                        Shift + Right Arrow: Previous Video
+                        Shift + Left Arrow: Previous Video<br/>
+                        Shift + Right Arrow: Next Video
                         
                     </h2>
                     <h1>How To Use</h1>

@@ -53,11 +53,13 @@ const GetPlaylist = (props) => { // API Handler, also converts data into a React
             
             for (let i = 0; i < results.length; i++) {
                 for (let j = 0; j < results[i].items.length; j++) {
-                    listResults.push({
-                        url: `https://www.youtube.com/watch?v=${results[i].items[j].snippet.resourceId.videoId}&list=${props.playlistUrl}`,
-                        title: results[i].items[j].snippet.title,
-                        channel: results[i].items[j].snippet.videoOwnerChannelTitle
-                    })
+                    if (results[i].items[j].snippet.title !== "Deleted video") {
+                        listResults.push({
+                            url: `https://www.youtube.com/watch?v=${results[i].items[j].snippet.resourceId.videoId}&list=${props.playlistUrl}`,
+                            title: results[i].items[j].snippet.title,
+                            channel: results[i].items[j].snippet.videoOwnerChannelTitle
+                        })
+                    }
                 }
             }
 

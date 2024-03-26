@@ -37,15 +37,17 @@ const Playlist = forwardRef((props, ref) => {
     }
 
     useEffect(() => {
+        
         if (props.playlistData) {
             let filteredList = [];
             for (let i = 0; i < props.playlistData.length; i++) {
-                if (searchByTerm === 'Title') {
+                if (searchByTerm === 'Title' && (typeof props.playlistData[i] !== undefined)) {
                     if (props.playlistData[i].title.toLowerCase().includes(playlistSearchTerm)) {
                         filteredList.push(props.playlistData[i]);
                     }
                 }
-                else if (searchByTerm === 'Channel') {
+                if (searchByTerm === 'Channel') {
+                    console.log(i);
                     if (props.playlistData[i].channel.toLowerCase().includes(playlistSearchTerm)) {
                         filteredList.push(props.playlistData[i]);
                     }
